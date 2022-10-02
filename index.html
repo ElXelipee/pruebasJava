@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=Probando FETCH, initial-scale=1.0" />
+    <title>Probando FETCH</title>
+  </head>
+  <body>
+    <form action="./php/contactar.php" method="post">
+      <ul>
+        <li>
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required />
+        </li>
+        <li>
+          <label for="asunto">Asunto:</label>
+          <input type="text" id="asunto" name="asunto" required />
+        </li>
+        <li>
+          <label for="mensaje">Mensaje:</label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            cols="30"
+            rows="10"
+            required
+          ></textarea>
+        </li>
+        <li>
+          <input type="checkbox" id="priv" name="priv" value="ok" required />
+          <label for="priv"
+            >Acepto las <a href="#">condiciones de privacidad</a>.</label
+          >
+        </li>
+      </ul>
+      <div>
+        <input type="submit" />
+      </div>
+      <div class="form-msg"></div>
+    </form>
+    <script>
+      async function enviarFormulario(ev) {
+        ev.preventDefault();
+        if (enviarFormulario.enviando) {
+          return;
+        }
+        enviarFormulario.enviando = true;
+        var form = document.querySelector("form");
+        var result = document.querySelector(".form-msg");
+        result.innerHTML = "Enviando, por favor espera...";
+        var datos = new FormData(form);
+        datos.append("otro-dato", "valor");
+        var init = {
+          method: form.method,
+          body: datos,
+        };
+        var init = {
+          method: form.method,
+          body: datos,
+        };
+        try {
+          var response = await fetch(form.action, init);
+          if (response.ok) {
+            console.log(response.ok);
+            var respuesta = await response.json();
+            result.innerHTML = respuesta;
+            form.reset();
+          } else {
+            throw new Error(response.statusText);
+          }
+        } catch (err) {
+          result.innerHTML = "Error al enviar el formulario: " + err.message;
+        }
+        enviarFormulario.enviando = false;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .querySelector("form")
+          .addEventListener("submit", enviarFormulario);
+      });
+    </script>
+    probando el test de velocidad jaja esto está fenial
+  </body>
+</html>

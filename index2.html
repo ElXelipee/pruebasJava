@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba 2 fetch</title>
+  </head>
+  <body>
+    <script>
+      (async () => {
+        try {
+          var datos = {
+            titulo: "Listado de números",
+            numeros: [2, 4, 6, 8, 10],
+          };
+          var init = {
+            method: "POST",
+            headers: {
+              // cabeceras HTTP
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datos),
+          };
+          var response = await fetch("./php/media.php", init);
+          if (response.ok) {
+            var respuesta = await response.json();
+            alert("La media es: " + respuesta.media);
+            document.write(respuesta.html);
+            document.close();
+          } else {
+            throw new Error(response.statusText);
+          }
+        } catch (err) {
+          console.log("Error al realizar la petición AJAX: " + err.message);
+        }
+      })();
+    </script>
+  </body>
+</html>
